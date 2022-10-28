@@ -1,0 +1,68 @@
+docker build -f Dockerfile-ubuntu . -t checkers_i
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i ignite scaffold chain github.com/alice/checkers
+
+Ignite chain build:
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i ignite chain build
+
+Ignite chain serve:
+docker run --rm -it --name checkers -v $(pwd):/checkers -w /checkers checkers_i ignite chain serve
+
+Run Protobuf:
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i ignite generate proto-go
+
+Addresses:
+export alice=$(docker exec checkers checkersd keys show alice -a)
+export bob=$(docker exec checkers checkersd keys show bob -a)
+
+Show system info:
+docker exec -it checkers checkersd query checkers show-system-info
+
+Create game:
+docker exec -it checkers checkersd tx checkers create-game $alice $bob --from $alice --gas auto
+
+List stored games:
+docker exec -it checkers checkersd query checkers list-stored-game
+
+Show the new game alone:
+docker exec -it checkers checkersd query checkers show-stored-game 1
+
+Alice makes a move:
+docker exec -it checkers checkersd tx checkers play-move 1 1 2 2 3 --from $alice
+
+Show board:
+docker exec -it checkers bash -c "checkersd query checkers show-stored-game 1 --output json | jq \".storedGame.board\" | sed 's/\"//g' | sed 's/|/\n/g'"
+
+Bob makes a move:
+docker exec -it checkers checkersd tx checkers play-move 1 0 5 1 4 --from $bob
+
+Parse transaction log output and display in a user friendly manner:
+docker exec -it checkers bash -c "checkersd query tx TransactionID --output json | jq '.raw_log | fromjson'"
+
+Alice captures Bob's piece:
+docker exec -it checkers checkersd tx checkers play-move 1 2 3 0 5 --from $alice
+
+Reject a game:
+docker exec -it checkers checkersd tx checkers reject-game 6 --from $bob
+
+Ordering games:
+
+
+
+
+Unit tests:
+
+Genesis test:
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i go test github.com/alice/checkers/x/checkers/types
+
+Create game test:
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i go test github.com/alice/checkers/x/checkers/keeper
+
+Play move test:
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i go test github.com/alice/checkers/x/checkers/keeper
+
+Reject game test:
+docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i go test github.com/alice/checkers/x/checkers/keeper
+
+
+
+
