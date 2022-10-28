@@ -32,7 +32,8 @@ const (
 	GameCreatedEventCreator   = "creator"          // Subsidiary information
 	GameCreatedEventGameIndex = "game-index"       // What game is relevant
 	GameCreatedEventBlack     = "black"            // Is it relevant to me?
-	GameCreatedEventRed       = "red"              // Is it relevant to me?
+	GameCreatedEventRed       = "red"
+	GameCreatedEventWager     = "wager" // Is it relevant to me?
 )
 
 const (
@@ -44,6 +45,7 @@ const (
 	MovePlayedEventWinner    = "winner"
 	MovePlayedEventBoard     = "board"
 )
+
 const (
 	GameRejectedEventType      = "game-rejected"
 	GameRejectedEventCreator   = "creator"
@@ -55,6 +57,13 @@ const (
 )
 
 const (
-	MaxTurnDuration = time.Duration(24 * 3_600 * 1000_000_000) // 1 day
+	MaxTurnDuration = time.Duration(5 * 60 * 1000_000_000) // 1 day
 	DeadlineLayout  = "2006-01-02 15:04:05.999999999 +0000 UTC"
+)
+
+const (
+	GameForfeitedEventType      = "game-forfeited"
+	GameForfeitedEventGameIndex = "game-index"
+	GameForfeitedEventWinner    = "winner"
+	GameForfeitedEventBoard     = "board"
 )
