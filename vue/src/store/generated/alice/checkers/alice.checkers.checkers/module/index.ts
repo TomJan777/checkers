@@ -4,23 +4,15 @@ import { StdFee } from "@cosmjs/launchpad";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgPlayMove } from "./types/checkers/tx";
 import { MsgRejectGame } from "./types/checkers/tx";
-<<<<<<< HEAD
-import { MsgPlayMove } from "./types/checkers/tx";
-=======
->>>>>>> 532e9637d435669a8dd667ff34b772131b283d4b
 import { MsgCreateGame } from "./types/checkers/tx";
+import { MsgPlayMove } from "./types/checkers/tx";
 
 
 const types = [
-  ["/alice.checkers.checkers.MsgPlayMove", MsgPlayMove],
   ["/alice.checkers.checkers.MsgRejectGame", MsgRejectGame],
-<<<<<<< HEAD
-  ["/alice.checkers.checkers.MsgPlayMove", MsgPlayMove],
-=======
->>>>>>> 532e9637d435669a8dd667ff34b772131b283d4b
   ["/alice.checkers.checkers.MsgCreateGame", MsgCreateGame],
+  ["/alice.checkers.checkers.MsgPlayMove", MsgPlayMove],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -53,13 +45,9 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
 
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
-    msgPlayMove: (data: MsgPlayMove): EncodeObject => ({ typeUrl: "/alice.checkers.checkers.MsgPlayMove", value: MsgPlayMove.fromPartial( data ) }),
     msgRejectGame: (data: MsgRejectGame): EncodeObject => ({ typeUrl: "/alice.checkers.checkers.MsgRejectGame", value: MsgRejectGame.fromPartial( data ) }),
-<<<<<<< HEAD
-    msgPlayMove: (data: MsgPlayMove): EncodeObject => ({ typeUrl: "/alice.checkers.checkers.MsgPlayMove", value: MsgPlayMove.fromPartial( data ) }),
-=======
->>>>>>> 532e9637d435669a8dd667ff34b772131b283d4b
     msgCreateGame: (data: MsgCreateGame): EncodeObject => ({ typeUrl: "/alice.checkers.checkers.MsgCreateGame", value: MsgCreateGame.fromPartial( data ) }),
+    msgPlayMove: (data: MsgPlayMove): EncodeObject => ({ typeUrl: "/alice.checkers.checkers.MsgPlayMove", value: MsgPlayMove.fromPartial( data ) }),
     
   };
 };
