@@ -1,3 +1,4 @@
+
 docker build -f Dockerfile-ubuntu . -t checkers_i
 docker run --rm -it -v $(pwd):/checkers -w /checkers checkers_i ignite scaffold chain github.com/alice/checkers
 
